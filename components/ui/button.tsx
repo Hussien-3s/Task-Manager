@@ -1,7 +1,9 @@
+"use client"
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
-
+import { useRouter } from 'next/navigation'
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
@@ -42,6 +44,7 @@ const buttonVariants = cva(
 )
 
 function Button({
+  href,
   className,
   variant = "default",
   size = "default",
@@ -50,13 +53,25 @@ function Button({
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    href?: string
   }) {
   const Comp = asChild ? Slot.Root : "button"
+
+  const router = useRouter()
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (props.onClick) props.onClick(e)
+      
+      if (href) {
+        router.push(href)
+      }
+  }
 
   return (
     <Comp
       data-slot="button"
       data-variant={variant}
+      onClick={handleClick}
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
