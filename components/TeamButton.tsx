@@ -15,20 +15,24 @@ const Alert = dynamic(() => import("@/components/Alert").then((mod) => mod.Alert
 
 export function TeamButton() {
   const [email, setEmail] = useState("");
-  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [isSuccessVisible, setIsSuccessVisible] = useState(false);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
 
   const handleReq = async () => {
     if (!email) return Error("Please enter an email");
 
     try {
       await sendTeamRequest(email);
-      setIsAlertVisible(true);
+      setIsSuccessVisible(true);
       setTimeout(() => {
-        setIsAlertVisible(false);
+        setIsSuccessVisible(false);
       }, 2000);
       setEmail("");
     } catch (err) {
-      console.error(err);
+      setIsErrorVisible(true);
+      setTimeout(() => {
+        setIsErrorVisible(false);
+      }, 2000);
     }
   }
 
@@ -61,7 +65,8 @@ export function TeamButton() {
         >
           <BadgePlus className="h-6 w-6" />
         </Button>
-        {isAlertVisible && <Alert />}
+        {isSuccessVisible && <Alert message="Team request sent successfully" />}
+        {isErrorVisible && <Alert message="Error: Team request failed" />}
       </CardFooter>
     </Card>
   )
