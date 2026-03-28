@@ -1,30 +1,28 @@
 import { currentUser } from '@clerk/nextjs/server';
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/AppSidebar"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { CardSmall } from '@/components/Cards';
+import { TaskCard } from '@/components/Cards';
 import { prisma } from '@/prisma';
-import TaskButton from '@/components/task-button';
+import TaskButton from '@/components/TaskButton';
 
 export default async function Page({ params }: { params: { email: string } }) {
-  const user = await currentUser();
-  if (!user) return <div className="p-10 text-center">login first to access this page</div>;
+  const currentClerkUser = await currentUser();
+  if (!currentClerkUser) return <div className="p-10 text-center">login first to access this page</div>;
 
-  const checkTeam = await prisma.user.findUnique({
+  const userWithTeamAccess = await prisma.user.findUnique({
     where: {
-      email: user.emailAddresses[0].emailAddress,
+      email: currentClerkUser.emailAddresses[0].emailAddress,
     }
   });
 
   const { email } = await params;
-
   const decodedEmail = decodeURIComponent(email);
+  const isAuthorized = userWithTeamAccess?.team.includes(decodedEmail);
 
-  const exists = checkTeam?.team.includes(decodedEmail);
+  if (!isAuthorized) return <div className="p-10 text-center">you are not authorized to access this page</div>;
 
-  if (!exists) return <div className="p-10 text-center">you are not authorized to access this page</div>;
-
-  const tasks = await prisma.user.findUnique({
+  const targetUserWithTasks = await prisma.user.findUnique({
     where: {
       email: decodedEmail,
     },
@@ -33,8 +31,8 @@ export default async function Page({ params }: { params: { email: string } }) {
     }
   });
 
-  const mapTasks = tasks?.tasks.map((task) => (
-    <CardSmall key={task.id} id={task.id} title={task.title} completed={task.completed} description={String(task.description)} content={String(task.content)} />
+  const renderedTaskList = targetUserWithTasks?.tasks.map((task) => (
+    <TaskCard key={task.id} id={task.id} title={task.title} completed={task.completed} description={String(task.description)} content={String(task.content)} />
   ));
 
   return (
@@ -53,7 +51,7 @@ export default async function Page({ params }: { params: { email: string } }) {
             <div className="flex-1 m-10 p-10">
               <h2 className="text-2xl pb-20 text-center font-bold">inbox - {decodedEmail}</h2>
               <div className='flex flex-col gap-6'>
-                {mapTasks}
+                {renderedTaskList}
               </div>
             </div>
           </SidebarInset>
@@ -61,4 +59,4 @@ export default async function Page({ params }: { params: { email: string } }) {
       </TooltipProvider>
     </div>
   );
-}
+}

@@ -5,17 +5,17 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Check } from 'lucide-react';
 import { X } from 'lucide-react';
 import { Label } from "@/components/ui/label"
-import { addTeam } from '@/app/actions/add-team-actions';
-import { deleteTeam } from '@/app/actions/delete-team-actions';
+import { acceptTeamInvitation } from '@/app/actions/add-team-actions';
+import { rejectTeamInvitation } from '@/app/actions/delete-team-actions';
 
 export function NoticeButton({ notice }: { notice: any }) {
 
     const handleAccept = () => {
-        addTeam(notice);
+        acceptTeamInvitation(notice);
     }
 
     const handleReject = () => {
-        deleteTeam(notice);
+        rejectTeamInvitation(notice);
     }
 
     return (

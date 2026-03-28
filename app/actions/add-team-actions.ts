@@ -3,9 +3,9 @@
 import { prisma } from '@/prisma';
 import { currentUser } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
-import { deleteTeam } from './delete-team-actions';
+import { rejectTeamInvitation } from './delete-team-actions';
 
-export async function addTeam(teamEmail: string) {
+export async function acceptTeamInvitation(teamEmail: string) {
     const user = await currentUser();
     const userEmail = user?.emailAddresses[0]?.emailAddress;
 
@@ -41,7 +41,7 @@ export async function addTeam(teamEmail: string) {
     });
 
     revalidatePath("/");
-    deleteTeam(teamEmail);
+    rejectTeamInvitation(teamEmail);
 
     return { success: true };
 }

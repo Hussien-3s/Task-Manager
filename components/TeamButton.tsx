@@ -5,22 +5,26 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { BadgePlus } from 'lucide-react';
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { request } from '@/app/actions/team-req-actions';
-import { AlertDemo } from "@/components/Alert";
+import { sendTeamRequest } from '@/app/actions/team-req-actions';
 import { useState } from 'react';
+import dynamic from "next/dynamic"
 
-export function CardButton() {
+const Alert = dynamic(() => import("@/components/Alert").then((mod) => mod.AlertDemo), {
+  ssr: false,
+});
+
+export function TeamButton() {
   const [email, setEmail] = useState("");
-  const [alert, setAlert] = useState(false);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
 
   const handleReq = async () => {
     if (!email) return Error("Please enter an email");
 
     try {
-      await request(email);
-      setAlert(true);
+      await sendTeamRequest(email);
+      setIsAlertVisible(true);
       setTimeout(() => {
-        setAlert(false);
+        setIsAlertVisible(false);
       }, 2000);
       setEmail("");
     } catch (err) {
@@ -57,7 +61,7 @@ export function CardButton() {
         >
           <BadgePlus className="h-6 w-6" />
         </Button>
-        {alert && <AlertDemo />}
+        {isAlertVisible && <Alert />}
       </CardFooter>
     </Card>
   )

@@ -1,22 +1,22 @@
-import { CardSmall } from "@/components/TeamCard";
-import { CardButton } from "@/components/TeamButton";
-import { team } from "@/app/actions/team-actions";
+import { TeamCard } from "@/components/TeamCard";
+import { TeamButton } from "@/components/TeamButton";
+import { fetchTeamData } from "@/app/actions/team-actions";
 import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Page() {
-  const user = await currentUser();
-  if (!user) return <div className="p-10 text-center">login first to access this page</div>;
+  const currentClerkUser = await currentUser();
+  if (!currentClerkUser) return <div className="p-10 text-center">login first to access this page</div>;
 
-  const data = await team();
+  const userWithTeamData = await fetchTeamData();
   return (
     <div className="flex flex-col h-screen p-5 m-5">
       <div className="font-semibold text-xl text-center pt-10 pb-10">
         Team
       </div>
-      {data?.team.map((team: any, index: number) => (
-        <CardSmall key={`${team}-${index}`} teamEmail={team} />
+      {userWithTeamData?.team.map((memberEmail: any, index: number) => (
+        <TeamCard key={`${memberEmail}-${index}`} teamEmail={memberEmail} />
       ))}
-      <CardButton />
+      <TeamButton />
     </div>
   );
 }

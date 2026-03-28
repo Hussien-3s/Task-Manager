@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { addTaskAction } from "@/app/actions/task-actions";
+import { addTask } from "@/app/actions/task-actions";
 
-export function CardSmall({ setOpenButton, setOpenCard }: { setOpenButton: (open: boolean) => void, setOpenCard: (open: boolean) => void }) {
+export function AddTask({ setOpenButton, setOpenCard }: { setOpenButton: (open: boolean) => void, setOpenCard: (open: boolean) => void }) {
   async function clientAction(formData: FormData) {
-    await addTaskAction(formData);
+    await addTask(formData);
     setOpenButton(true);
     setOpenCard(false);
   }

@@ -3,7 +3,7 @@
 import { prisma } from '@/prisma';
 import { currentUser } from '@clerk/nextjs/server';
 
-export async function request(teamEmail: string) {
+export async function sendTeamRequest(teamEmail: string) {
   const user = await currentUser();
   if (!user) throw new Error("Unauthorized");
 

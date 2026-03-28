@@ -3,20 +3,20 @@
 import { useEffect, useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { NoticeButton } from "./NoticeButton";
-import { noticeAction } from '@/app/actions/notice-actions';
+import { fetchUserNotices } from '@/app/actions/notice-actions';
 
 export function NoticeCard() {
     const [tasks, setTasks] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        noticeAction().then((data) => {
+        fetchUserNotices().then((data) => {
             setTasks(data);
-            setLoading(false);
+            setIsLoading(false);
         });
     }, []);
 
-    if (loading) return <Card className="...">Loading...</Card>;
+    if (isLoading) return <Card className="...">Loading...</Card>;
 
     console.log(tasks);
 

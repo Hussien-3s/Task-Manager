@@ -1,6 +1,14 @@
+"use client";
+
 import Navbar from "@/components/Navbar"
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
-import LineWaves from "@/components/LineWaves"
+import dynamic from "next/dynamic"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
+
+const LineWaves = dynamic(() => import("../../components/LineWaves"), {
+  ssr: false,
+  loading: () => <LoadingSpinner />,
+})
 
 export default function MarketingLayout({
   children,
@@ -41,7 +49,7 @@ export default function MarketingLayout({
               </button>
             </SignInButton>
             <SignUpButton>
-              <button className="h-10 cursor-pointer rounded-full bg-[#6c47ff] px-6 text-sm font-medium text-white transition-hover hover:opacity-90">
+              <button className="h-10 cursor-pointer rounded-full bg-black px-6 text-sm font-medium text-white transition-hover hover:opacity-90">
                 Sign Up
               </button>
             </SignUpButton>

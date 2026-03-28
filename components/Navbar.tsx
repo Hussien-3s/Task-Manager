@@ -9,13 +9,18 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { NoticeCard } from "./NoticeCard";
+import dynamic from "next/dynamic"
+import { LoadingSpinner } from "./LoadingSpinner"
+
+const NoticeCard = dynamic(() => import("./NoticeCard").then((mod) => mod.NoticeCard), {
+  loading: () => <LoadingSpinner />,
+});
 
 export default function Navbar() {
-  const [open, setOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const handleBellClick = () => {
-    setOpen(!open);
+  const toggleNotifications = () => {
+    setIsMenuOpen(!isMenuOpen);
   }
 
   return (
@@ -40,10 +45,10 @@ export default function Navbar() {
           </nav>
         </div>
         <div className="flex items-center gap-2">
-          <Button onClick={handleBellClick} variant="ghost" size="icon" className="hidden md:flex">
+          <Button onClick={toggleNotifications} variant="ghost" size="icon" className="hidden md:flex">
             <Bell className="h-5 w-5" />
           </Button>
-          {open && <NoticeCard />}
+          {isMenuOpen && <NoticeCard />}
 
           <Sheet>
             <SheetTrigger asChild>

@@ -10,7 +10,7 @@ import { BookOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { CardContent, CardFooter } from "./ui/card";
 
-export function CardSmall({ teamEmail }: { teamEmail: string }) {
+export function TeamCard({ teamEmail }: { teamEmail: string }) {
 
     const router = useRouter();
 

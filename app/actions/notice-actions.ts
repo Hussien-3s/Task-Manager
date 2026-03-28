@@ -3,7 +3,7 @@
 import { prisma } from '@/prisma';
 import { currentUser } from '@clerk/nextjs/server';
 
-export async function noticeAction() {
+export async function fetchUserNotices() {
     const user = await currentUser();
     if (!user) return null;
 

@@ -1,36 +1,36 @@
 import { currentUser } from '@clerk/nextjs/server';
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/AppSidebar"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { CardSmall } from '@/components/Cards';
+import { TaskCard } from '@/components/Cards';
 import { prisma } from '@/prisma';
-import TaskButton from '@/components/task-button';
+import TaskButton from '@/components/TaskButton';
 
 export default async function Page() {
-  const user = await currentUser();
-  if (!user) return <div className="p-10 text-center">login first to access this page</div>;
+  const currentClerkUser = await currentUser();
+  if (!currentClerkUser) return <div className="p-10 text-center">login first to access this page</div>;
 
-  const tasks = await prisma.user.findUnique({
+  const userWithTasks = await prisma.user.findUnique({
     where: {
-      clerkId: user.id,
+      clerkId: currentClerkUser.id,
     },
     include: {
       tasks: true,
     }
   });
 
-  if (!tasks) {
+  if (!userWithTasks) {
     await prisma.user.create({
       data: {
-        clerkId: user.id,
-        email: user.emailAddresses[0].emailAddress,
-        name: user.username,
+        clerkId: currentClerkUser.id,
+        email: currentClerkUser.emailAddresses[0].emailAddress,
+        name: currentClerkUser.username,
       }
     });
   }
 
-  const mapTasks = tasks?.tasks.map((task) => (
-    <CardSmall key={task.id} id={task.id} title={task.title} completed={task.completed} description={String(task.description)} content={String(task.content)} />
+  const renderedTaskList = userWithTasks?.tasks.map((task) => (
+    <TaskCard key={task.id} id={task.id} title={task.title} completed={task.completed} description={String(task.description)} content={String(task.content)} />
   ));
 
   return (
@@ -49,7 +49,7 @@ export default async function Page() {
             <div className="flex-1 m-10 p-10">
               <h2 className="text-2xl pb-20 text-center font-bold">inbox</h2>
               <div className='flex flex-col gap-6'>
-                {mapTasks}
+                {renderedTaskList}
               </div>
               <div className='flex justify-center pt-10 items-center'>
                 <TaskButton />

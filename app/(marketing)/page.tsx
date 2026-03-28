@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+    <main className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
 
       <div className="relative z-10 flex flex-col justify-center items-center pointer-events-none">
 
