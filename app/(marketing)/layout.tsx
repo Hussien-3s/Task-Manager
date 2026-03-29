@@ -5,7 +5,7 @@ import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
 import dynamic from "next/dynamic"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 
-const LineWaves = dynamic(() => import("../../components/LineWaves"), {
+const Beams = dynamic(() => import("../../components/Beams"), {
   ssr: false,
   loading: () => <LoadingSpinner />,
 })
@@ -19,29 +19,24 @@ export default function MarketingLayout({
     <div className="relative flex flex-col w-full h-screen overflow-hidden bg-black text-white">
 
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <LineWaves
-          speed={0.3}
-          innerLineCount={32}
-          outerLineCount={36}
-          warpIntensity={1}
-          rotation={-45}
-          edgeFadeWidth={0}
-          colorCycleSpeed={1}
-          brightness={0.2}
-          color1="#ffffff"
-          color2="#ffffff"
-          color3="#ffffff"
-          enableMouseInteraction
-          mouseInfluence={2}
+        <Beams
+          beamWidth={3}
+          beamHeight={30}
+          beamNumber={20}
+          lightColor="#ffffff"
+          speed={2}
+          noiseIntensity={1.75}
+          scale={0.2}
+          rotation={30}
         />
       </div>
 
-      <header className="relative bg-black z-10 flex items-center justify-between gap-2 p-2 border-b border-white/10 bg-black/20 backdrop-blur-sm">
+      <header className="relative bg-black z-50 flex items-center justify-between p-2 h-16 border-b border-white/10 bg-black/20 backdrop-blur-sm">
         <div className="flex items-center">
           <Navbar />
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 px-4">
           <Show when="signed-out">
             <SignInButton>
               <button className="h-10 cursor-pointer rounded-full bg-white px-6 text-sm font-medium text-black transition-hover hover:bg-gray-200">

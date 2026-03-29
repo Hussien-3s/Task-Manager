@@ -29,6 +29,7 @@ export function TeamButton() {
       }, 2000);
       setEmail("");
     } catch (err) {
+      console.log(err);
       setIsErrorVisible(true);
       setTimeout(() => {
         setIsErrorVisible(false);

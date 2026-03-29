@@ -34,7 +34,7 @@ const data = {
   ],
   projects: [
     { name: "Home", url: "/", icon: Frame },
-    { name: "Sales & Marketing", url: "#", icon: PieChart },
+    { name: "About", url: "/about", icon: PieChart },
     { name: "Team", url: "/team", icon: Map },
   ],
 }
