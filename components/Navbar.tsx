@@ -60,9 +60,18 @@ export default function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
-              <nav className="flex flex-col gap-4 mt-8">
-                <Link href="/dashboard" className="text-lg font-semibold">home</Link>
-                <Link href="/team" className="text-lg font-semibold">team</Link>
+              <nav className="flex flex-col gap-4">
+                <hr className="border-gray-200" />
+                <Link href="/" className="text-lg p-3 font-semibold">home</Link>
+                <hr className="border-gray-200" />
+                <Link href="/team" className="text-lg p-3 font-semibold">team</Link>
+                <hr className="border-gray-200" />
+                <Link href="/tasks" className="text-lg p-3 font-semibold">tasks</Link>
+                <hr className="border-gray-200" />
+                <Link href="/about" className="text-lg p-3 font-semibold">about</Link>
+                <hr className="border-gray-200" />
+                <Link href="/notice" className="text-lg p-3 font-semibold">notice</Link>
+                <hr className="border-gray-200" />
               </nav>
             </SheetContent>
           </Sheet>

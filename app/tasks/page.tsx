@@ -2,7 +2,7 @@ import { currentUser } from '@clerk/nextjs/server';
 import { AppSidebar } from "@/components/AppSidebar"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { TaskCard } from '@/components/Cards';
+import { TaskCard } from '@/components/TaskCards';
 import { prisma } from '@/prisma';
 import TaskButton from '@/components/TaskButton';
 

@@ -18,7 +18,6 @@ export function NoticeCard() {
 
     if (isLoading) return <Card className="...">Loading...</Card>;
 
-    console.log(tasks);
 
     return (
         <Card size="sm" className="absolute top-16 left-85 w-full">
